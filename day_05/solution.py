@@ -1,6 +1,6 @@
 from collections import Counter, defaultdict
 f = open('input.txt').read().strip().split("\n")
-# f = ["qjhvhtzxzqqjkmpb", "xxyxx"]
+# f = ["qjhvhtzxzqqjkmpb", "xxyxx", "aaa", "aaaa"]
 
 vowels = "aeiou"
 
@@ -19,10 +19,10 @@ def process_string(x):
     return any(a == b for a,b in zip(x, x[1:]))
 
 def process_string_2(x):
-    qwer = defaultdict(int)
-    for a,b in zip(x, x[1:]):
-        qwer[(a,b)] += 1
-    if all(a != b and val < 2 or a == b and val < 3 for (a,b), val in qwer.items()):
+    double_indexes = defaultdict(list)
+    for i, (a,b) in enumerate(zip(x, x[1:])):
+        double_indexes[(a,b)].append(i)
+    if all(l[-1] - l[0] < 2 for _, l in double_indexes.items()):
         return False
     return any(a == b for a,b in zip(x, x[2:]))
 
@@ -30,12 +30,6 @@ nice_strings = [x for x in f if process_string(x)]
 
 print(len(nice_strings))
 
-# nice_strings = [x for x in f if process_string_2(x)]
+nice_strings = [x for x in f if process_string_2(x)]
 
-# print(nice_strings)
-
-
-# print(zip("12345", "2345"))
-
-# for i, (a,b) in enumerate(zip("12345", "2345")):
-#     print(i,a,b)
+print(len(nice_strings))
