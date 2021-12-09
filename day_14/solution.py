@@ -13,12 +13,13 @@ class Reindeer:
         return time % (self.duration + self.rest) >= self.duration
 
 
-things = [Reindeer(n, s, d, r) for n, s, d, r in
-          [tuple(parse.parse("{} can fly {:d} km/s for {:d} seconds, but then must rest for {:d} seconds.", x).fixed)
-           for x in open("input.txt").read().strip().split("\n")]]
+reindeer = [Reindeer(n, s, d, r) for n, s, d, r in
+            [tuple(parse.parse("{} can fly {:d} km/s for {:d} seconds, but then must rest for {:d} seconds.", x).fixed)
+             for x in open("input.txt").read().strip().split("\n")]]
 
 points = defaultdict(int)
 distances = {}
+
 
 def move_thing(t, time):
     # duration + rest = one cycle
@@ -38,7 +39,7 @@ def findMax():
 
 
 for i in range(0, 2503):
-    for thing in things:
+    for thing in reindeer:
         if thing in distances.keys():
             move_thing(thing, i)
         else:
