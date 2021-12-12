@@ -1,18 +1,31 @@
-from collections import Counter
+from collections import defaultdict
+from itertools import  combinations
 containers = [int(x) for x in open("input.txt").read().strip().split("\n")]
-containers = [20, 15, 10, 5, 5]
-countainer_counts = Counter(containers)
-containers = set(containers)
-combinations = [0] * 26
+c = 0
+d = defaultdict(int)
+for i in range(1 << len(containers)):
+    count = 0
+    qwer = 0
+    for idx, val in enumerate(containers):
+        if (i & 1<<idx) > 0:
+            qwer += val
+            count += 1
+    if qwer == 150:
+        c += 1
+        d[count] += 1
+print(c)
+print(d[min(d.keys())])
 
-for i in range(1, 26):
-    for size in containers:
-        # print("checking size", size)
-        if i - size == 0 or combinations[i - size] != 0:
-            if i == 10:
-                print("incrementing something for 10")
-                print(i, size, combinations[i], combinations[i - size], countainer_counts[size])
-            combinations[i] += (combinations[i - size] + countainer_counts[size])
-print(combinations[10])
-# print(combinations[-1])
+
+c = 0
+d = defaultdict(int)
+for i in range(len(containers)):
+    for comb in combinations(containers, i):
+        if sum(comb) == 150:
+            c += 1
+            d[i] += 1
+print(c)
+print(d[min(d.keys())])
+
+
 
