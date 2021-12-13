@@ -12,27 +12,15 @@ asdf = json.loads(f)
 c = 0
 
 def dfs(node):
-    currC = 0
-    if type(node) is list:
-        for elem in node:
-            currC += dfs(elem)
-            # print(currC)
-    elif type(node) is dict:
-        foundRed = False
-        for value in node.values():
-            print(value, list(node.values()))
-            # if value != "red" and :
-            #     foundRed = True
-        if foundRed:
-            print(type(node.values()))
-            print(str(node.values()))
-        if not foundRed:
-            for k, v in node.items():
-                if k != "red:":
-                    currC += dfs(v)
-    elif str(node).isnumeric():
-        return int(node)
-    return currC
-
+    if type(node) == int:
+        return node
+    if type(node) == list:
+        return sum([dfs(x) for x in node])
+    if type(node) != dict:
+        return 0
+    if "red" in node.values():
+        return 0
+    else:
+        return dfs(list(node.values()))
 
 print("part 2", dfs(asdf))
